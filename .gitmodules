@@ -1,0 +1,3 @@
+[submodule "src/LEAStereo"]
+	path = src/LEAStereo
+	url = git@github.com:XuelianCheng/LEAStereo.git
