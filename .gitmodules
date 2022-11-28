@@ -1,3 +1,6 @@
 [submodule "src/LEAStereo"]
 	path = src/LEAStereo
 	url = git@github.com:XuelianCheng/LEAStereo.git
+[submodule "pyLiDAR-SLAM"]
+	path = pyLiDAR-SLAM
+	url = git@github.com:Kitware/pyLiDAR-SLAM.git
