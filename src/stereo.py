@@ -80,11 +80,12 @@ class Stereo(ABC):
             o3d.geometry.Image(depth.astype(np.float32))
         )
 
+        # The transformation is needed to flip the points as they are upside-down
         return o3d.geometry.PointCloud.create_from_rgbd_image(
             rgbd_image,
             self.left_instrinsic,
             self.left_extrinsic
-        )
+        ).transform([[1, 0, 0, 0], [0, -1, 0, 0], [0, 0, -1, 0], [0, 0, 0, 1]])
 
 
 class OCVStereo(Stereo, ABC):
