@@ -130,3 +130,12 @@ dmypy.json
 
 # Kitti dataset
 dataset
+*.pcd
+left/*
+right/*
+masks/*
+depth/*
+out/*
+*.mp4
+detectron2/*
+*.zip
