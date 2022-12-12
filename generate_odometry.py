@@ -13,13 +13,13 @@ dataset = kitti.KittiDataset(Path('dataset/sequences/00'))
 transform = np.identity(4)
 last_cloud = None
 
-WITH_MASK = False
+WITH_MASK = True
 
 ster = stereo.SGBMStereo(dataset.calib)
 
-all_clouds = []
 start, end = int(sys.argv[1]), int(sys.argv[2])
 
+odometry = []
 for index in tqdm(range(start, end)):
     frame = kitti.KittiFrame(dataset, index)
 
@@ -54,15 +54,9 @@ for index in tqdm(range(start, end)):
         transform = reg_p2p.transformation
 
     last_cloud = pt_cloud
-    all_clouds.append(pt_cloud)
+    odometry.append(transform)
 
-
-# Merge the point clouds
-# We get rid of redundant point by downsampling
-print("Merging point clouds")
-full_cloud = all_clouds[0]
-for cloud in tqdm(all_clouds[1:]):
-    full_cloud = (full_cloud + cloud).voxel_down_sample(0.0001)
-pt_file = f"full-{start}-{end}{'mask' if WITH_MASK else 'no-mask'}.pcd"
+pt_file = f"full-{start}-{end}{'mask' if WITH_MASK else 'no-mask'}.odom"
 print("Saving to %s" % pt_file)
-o3d.io.write_point_cloud(pt_file, full_cloud)
+with open(pt_file, "wb+") as f:
+    np.save(f, odometry)
